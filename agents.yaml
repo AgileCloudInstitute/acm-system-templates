@@ -1,0 +1,156 @@
+# Start agents system
+agents:
+  keysDir: $Output\pipelineAgents
+  cloud: azure 
+  organization: $config.orgTfPackerDemo
+  tags: 
+    networkName: name-of-vnet 
+    systemName: name-of-system 
+    environmentName: name-of-environment 
+    ownerName: name-of-owner 
+  foundation: 
+    instanceName: tf-test 
+    templateName: azure-building-blocks/terraform/blankfoundation
+    controller: terraform
+    canary: isabird 
+    labrador: isadog
+    preprocessor: 
+      locationOn: azure-building-blocks/scripts/hello1.py 
+      commandOn: python $location 
+      locationOff: azure-building-blocks/scripts/hello2.py 
+      commandOff: python $location
+    postprocessor: 
+      locationOn: azure-building-blocks/scripts/hello3.py 
+      commandOn: python $location 
+      locationOff: azure-building-blocks/scripts/hello4.py 
+      commandOff: python $location
+    mappedVariables: 
+      subscriptionId: $config
+      tenantId: $config
+      clientId: $keys
+      clientSecret: $keys
+      resourceGroupRegion: $config
+      resourceGroupName: $config.rgNameAgentsFoundation
+      vpcCIDR: 10.0.0.0/16
+      secondString: bencher
+      clientName: $keys
+      subName: $config.subscriptionName
+      labrador: $this.foundation
+      tName: $this.foundation.canary
+      networkName: $this.tags
+      owner: $this.tags.ownerName
+      makePath: $customFunction.addPath./azure-building-blocks/arm
+      now: $customFunction.currentDateTime
+      addOrgTest: $customFunction.addOrganization.somestring
+    backendVariables: 
+      storage_account_name: $keys.storageAccountName
+      container_name: $keys
+      key: adminaccounts.networkfoundation.tfstate
+      access_key: $keys.tfBackendStorageAccessKey
+    images: 
+      - instanceName: EMPTY_IMAGE
+        templateName: azure-building-blocks/packer/empty-image
+        controller: packer
+        keySourceFile: /home/runner/acmconfig/keys.yaml
+        canine: describesadog
+        feline: cat-like
+        mappedVariables: 
+          ssh_user: packer
+          ssh_pass: just-me-123
+          file_secret_name: acmSecretsFile
+          vault_name: agentsFoundationVault
+          init_script: $customFunction.addPath.\\azure-building-blocks\scripts\empty-cloudinit-packer.sh
+          new_image_name: $customFunction.addDateTime.EMPTY_IMAGE
+          region: $this.foundationMapped.resourceGroupRegion
+          resource_group: $this.foundationMapped.resourceGroupName
+          az_server: $config.azdoOrgServiceURL
+          az_pat: $keys.azdoOrgPAT
+          tenant_id: $config.tenantId
+          subscription_id: $config.subscriptionId
+          client_secret: $keys.clientSecret
+          client_id: $keys.clientId
+          KeyName: $keys.KeyName 
+          clientName: $keys
+          canary: $this.foundation
+          lab: $this.foundation.labrador
+          rabid: $this.instance.canine
+          feline: $this.instance
+          networkName: $this.tags
+          environ: $this.tags.environmentName
+          vpcCIDR: $this.foundationMapped
+          alternate: $this.foundationMapped.secondString
+          first_output_var: $customFunction.foundationOutput
+          secondVar: $customFunction.foundationOutput.second_output_var
+          makePath: $customFunction.addPath./azure-building-blocks/arm
+          currentDateTimeAlphaNumeric: $customFunction.currentDateTime
+          addOrgTest: $customFunction.addOrganization.somestring
+  serviceTypes: 
+    subnetsWithScaleSet: 
+      sharedVariables: 
+        mappedVariables: 
+          vnetName: $customFunction.foundationOutput.vnetName
+          firstSharedVariable: justthis
+          KeyName: $keys.KeyName 
+          clientName: $keys
+          canary: $this.foundation
+          lab: $this.foundation.labrador
+          networkName: $this.tags
+          environ: $this.tags.environmentName
+          vpcCIDR: $this.foundationMapped
+          alternate: $this.foundationMapped.secondString
+          first_output_var: $customFunction.foundationOutput
+          secondVar: $customFunction.foundationOutput.second_output_var
+          makePath: $customFunction.addPath./azure-building-blocks/arm
+          now: $customFunction.currentDateTime
+          imageId: empty_image
+          addOrgTest: $customFunction.addOrganization.somestring
+          resourceGroupName: $this.foundationMapped
+          clientSecret: $keys
+          clientId: $keys
+          tenantId: $config
+          subscriptionId: $config
+      instances: 
+        - instanceName: tf-service
+          templateName: azure-building-blocks/terraform/snet-blank
+          controller: terraform
+          imageName: arm-image 
+          oneInstanceVar: one-value
+          twoInstanceVar: two-value
+          preprocessor: 
+            locationOn: azure-building-blocks/scripts/hello1.py 
+            commandOn: python $location 
+            locationOff: azure-building-blocks/scripts/hello2.py 
+            commandOff: python $location
+          postprocessor: 
+            locationOn: azure-building-blocks/scripts/hello3.py 
+            commandOn: python $location 
+            locationOff: azure-building-blocks/scripts/hello4.py 
+            commandOff: python $location
+          mappedVariables:
+            KeyName: $keys.KeyName 
+            InstanceType: t2.small  
+            clientName: $keys
+            canary: $this.foundation
+            lab: $this.foundation.labrador
+            oneVar: $this.instance.oneInstanceVar
+            twoInstanceVar: $this.instance
+            networkName: $this.tags
+            environ: $this.tags.environmentName
+            vpcCIDR: $this.foundationMapped
+            alternate: $this.foundationMapped.secondString
+            first_output_var: $customFunction.foundationOutput
+            secondVar: $customFunction.foundationOutput.second_output_var
+            makePath: $customFunction.addPath./azure-building-blocks/arm
+            now: $customFunction.currentDateTime
+            addOrgTest: $customFunction.addOrganization.somestring
+            imageName: empty_image
+            cidrSubnet: 10.0.6.0/24
+            adminUser: azureuser
+            adminPwd: abc-some-pwd-123
+            storageAccountDiagName: $customFunction.foundationOutput.storageAccountDiagName
+            cloudInit: $customFunction.addPath.\\azure-building-blocks\scripts\startup-script-demo.sh
+          backendVariables:
+            storage_account_name: $keys.storageAccountName
+            container_name: $keys
+            key: agents.blank-subnet.tfstate
+            access_key: $keys.tfBackendStorageAccessKey
