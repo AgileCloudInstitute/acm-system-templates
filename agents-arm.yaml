@@ -1,0 +1,99 @@
+## Copyright 2022 Green River IT (GreenRiverIT.com) as described in LICENSE.txt distributed with this project on GitHub.  
+## Start at https://github.com/AgileCloudInstitute?tab=repositories    
+
+#Start agents-arm system
+agents-arm:
+  keysDir: $Default
+  cloud: azure
+  organization: x1b2c
+  tags:
+    networkName: $config
+    systemName: $config.sysName
+    environmentName: name-of-environment
+    ownerName: name-of-owner
+  foundation:
+    instanceName: arm-demox
+    deploymentName: devenvironmentx
+    templateName: azure-building-blocks/arm/foundation.template.json
+    emptyTemplateName: azure-building-blocks/arm/empty.template.json
+    controller: arm
+    resourceGroupName: $config.rgArmDemoFoundation
+    resourceGroupRegion: $config
+    preprocessor: 
+      locationOn: azure-building-blocks/scripts/hello1.py
+      commandOn: python $location
+      locationOff: azure-building-blocks/scripts/hello2.py
+      commandOff: python $location
+    postprocessor:
+      locationOn: azure-building-blocks/scripts/hello3.py
+      commandOn: python $location
+      locationOff: azure-building-blocks/scripts/hello4.py
+      commandOff: python $location
+    mappedVariables:
+      resourceGroupName: $this.instance.resourceGroupName
+      anotherVar: $config
+      thirdVar: $config.anotherVar2
+      foundInst: $this.instance.instanceName
+      networkName: $this.tags
+      systName: $this.tags.systemName
+      environmentName: $this.tags
+      ownrNm: $this.tags.ownerName
+    images:
+      - instanceName: arm-demo-imgx
+        deploymentName: devenvimagesx
+        templateName: azure-building-blocks/arm/imagebuilder.template.json
+        emptyTemplateName: azure-building-blocks/arm/empty.template.json
+        controller: arm
+        imageName: initialimagemx
+        runOutputName: initialoutputx
+        resourceGroupName: $config.rgArmDemoFoundation
+        mappedVariables: 
+          resourceGroupName: $this.instance.resourceGroupName
+          resourceGroupRegion: $this.foundation.resourceGroupRegion
+          subscriptionId: $config.subscriptionId
+          imgBuilderId: $customFunction.imageBuilderId
+          imageTemplateName: $customFunction.imageTemplateName
+          currentDateTimeAlphaNumeric: $customFunction.currentDateTime
+          imageName: $this.instance.imageName
+          runOutputName: $this.instance.runOutputName
+  serviceTypes:
+    subnetsWithScaleSet:
+      instances:
+        - instanceName: azdoAgentsx
+          deploymentName: $config.scaleSetInstanceDeployNameARM
+          templateName: azure-building-blocks/arm/vm-portal.template.json
+          emptyTemplateName: azure-building-blocks/arm/empty.template.json
+          controller: arm
+          resourceGroupName: $config.rgArmDemoService
+          resourceGroupRegion: $config
+          preprocessor: 
+            locationOn: azure-building-blocks/scripts/hello1.py
+            commandOn: python $location
+            locationOff: azure-building-blocks/scripts/hello2.py
+            commandOff: python $location
+          postprocessor:
+            locationOn: azure-building-blocks/scripts/hello3.py
+            commandOn: python $location
+            locationOff: azure-building-blocks/scripts/hello4.py
+            commandOff: python $location
+          mappedVariables:
+            dnsLabelPrefix: agents
+            vnetCidr: 10.0.0.0/16
+            subnetCidr: 10.0.0.0/24
+            publicIPAddressType: Dynamic
+            resourceGroupRegion: $this.instance.resourceGroupRegion
+            VmName: KokoTaylorx
+            subnetName: agentsSubnetx
+            imageName: $customFunction.mostRecentImage.initialimagem
+            NicName: agentsNic
+            vnetName: agentsVnet1
+            foundationResourceGroupName: $this.foundation.resourceGroupName
+            anotherVar: $this.foundationMapped
+            yetAnotherVar: $this.foundationMapped.thirdVar
+            foundInstanceNameVar: $this.foundation.instanceName
+            deploymentName: $this.instance
+            myInstName: $this.instance.instanceName
+            networkName: $this.tags
+            systName: $this.tags.systemName
+            environmentName: $this.tags
+            ownrNm: $this.tags.ownerName
