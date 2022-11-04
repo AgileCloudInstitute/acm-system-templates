@@ -14,6 +14,7 @@ agents:
     controller: terraform
     canary: isabird 
     labrador: isadog
+    relativePathToResource: /azure-building-blocks/arm
     preprocessor: 
       locationOn: azure-building-blocks/scripts/hello1.py 
       commandOn: python $location 
@@ -39,7 +40,7 @@ agents:
       tName: $this.foundation.canary
       networkName: $this.tags
       owner: $this.tags.ownerName
-      makePath: $customFunction.addPath./azure-building-blocks/arm
+      makePath: $customFunction.addPath
       now: $customFunction.currentDateTime
       addOrgTest: $customFunction.addOrganization.somestring
     backendVariables: 
@@ -54,12 +55,13 @@ agents:
         keySourceFile: /home/runner/acmconfig/keys.yaml
         canine: describesadog
         feline: cat-like
+        relativePathToResource: \\azure-building-blocks\scripts\empty-cloudinit-packer.sh
         mappedVariables: 
           ssh_user: packer
           ssh_pass: just-me-123
           file_secret_name: acmSecretsFile
           vault_name: agentsFoundationVault
-          init_script: $customFunction.addPath.\\azure-building-blocks\scripts\empty-cloudinit-packer.sh
+          init_script: $customFunction.addPath
           new_image_name: $customFunction.addDateTime.EMPTY_IMAGE
           region: $this.foundationMapped.resourceGroupRegion
           resource_group: $this.foundationMapped.resourceGroupName
@@ -81,7 +83,7 @@ agents:
           alternate: $this.foundationMapped.secondString
           first_output_var: $customFunction.foundationOutput
           secondVar: $customFunction.foundationOutput.second_output_var
-          makePath: $customFunction.addPath./azure-building-blocks/arm
+          makePath: $customFunction.addPath
           currentDateTimeAlphaNumeric: $customFunction.currentDateTime
           addOrgTest: $customFunction.addOrganization.somestring
   serviceTypes: 
@@ -100,7 +102,7 @@ agents:
           alternate: $this.foundationMapped.secondString
           first_output_var: $customFunction.foundationOutput
           secondVar: $customFunction.foundationOutput.second_output_var
-          makePath: $customFunction.addPath./azure-building-blocks/arm
+          makePath: $customFunction.addPath
           now: $customFunction.currentDateTime
           imageId: empty_image
           addOrgTest: $customFunction.addOrganization.somestring
@@ -116,6 +118,7 @@ agents:
           imageName: arm-image 
           oneInstanceVar: one-value
           twoInstanceVar: two-value
+          relativePathToResource: \\azure-building-blocks\scripts\startup-script-demo.sh
           preprocessor: 
             locationOn: azure-building-blocks/scripts/hello1.py 
             commandOn: python $location 
@@ -140,7 +143,7 @@ agents:
             alternate: $this.foundationMapped.secondString
             first_output_var: $customFunction.foundationOutput
             secondVar: $customFunction.foundationOutput.second_output_var
-            makePath: $customFunction.addPath./azure-building-blocks/arm
+            makePath: $customFunction.addPath
             now: $customFunction.currentDateTime
             addOrgTest: $customFunction.addOrganization.somestring
             imageName: empty_image
@@ -148,7 +151,7 @@ agents:
             adminUser: azureuser
             adminPwd: abc-some-pwd-123
             storageAccountDiagName: $customFunction.foundationOutput.storageAccountDiagName
-            cloudInit: $customFunction.addPath.\\azure-building-blocks\scripts\startup-script-demo.sh
+            cloudInit: $customFunction.addPath
           backendVariables:
             storage_account_name: $keys.storageAccountName
             container_name: $keys

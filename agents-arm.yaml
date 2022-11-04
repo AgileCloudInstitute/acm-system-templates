@@ -66,6 +66,7 @@ agents-arm:
           controller: arm
           resourceGroupName: $config.rgArmDemoService
           resourceGroupRegion: $config
+          imageName: $config.imageNameARM
           preprocessor: 
             locationOn: azure-building-blocks/scripts/hello1.py
             commandOn: python $location
@@ -84,7 +85,7 @@ agents-arm:
             resourceGroupRegion: $this.instance.resourceGroupRegion
             VmName: KokoTaylorx
             subnetName: agentsSubnetx
-            imageName: $customFunction.mostRecentImage.initialimagem
+            imageName: $customFunction.mostRecentImage
             NicName: agentsNic
             vnetName: agentsVnet1
             foundationResourceGroupName: $this.foundation.resourceGroupName
