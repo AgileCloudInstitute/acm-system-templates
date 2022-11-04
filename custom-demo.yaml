@@ -17,14 +17,14 @@ custom-demo:
     controller: $customController.acm-custom-controller/controller/customController.py
     controllerCommand: python $location
     preprocessor: 
-      locationOn: aws-building-blocks/scripts/hello1.py
+      locationOn: acm-custom-controller/scripts/hello1.py
       commandOn: python $location
-      locationOff: aws-building-blocks/scripts/hello2.py
+      locationOff: acm-custom-controller/scripts/hello2.py
       commandOff: python $location
     postprocessor:
-      locationOn: aws-building-blocks/scripts/hello3.py
+      locationOn: acm-custom-controller/scripts/hello3.py
       commandOn: python $location
-      locationOff: aws-building-blocks/scripts/hello4.py
+      locationOff: acm-custom-controller/scripts/hello4.py
       commandOff: python $location
     mappedVariables:
       vpcCIDR: $config
@@ -48,14 +48,14 @@ custom-demo:
           controllerCommand: python $location
           imageName: $config.imgNameCustom
           preprocessor: 
-            locationOn: aws-building-blocks/scripts/hello1.py
+            locationOn: acm-custom-controller/scripts/hello1.py
             commandOn: python $location
-            locationOff: aws-building-blocks/scripts/hello2.py
+            locationOff: acm-custom-controller/scripts/hello2.py
             commandOff: python $location
           postprocessor:
-            locationOn: aws-building-blocks/scripts/hello3.py
+            locationOn: acm-custom-controller/scripts/hello3.py
             commandOn: python $location
-            locationOff: aws-building-blocks/scripts/hello4.py
+            locationOff: acm-custom-controller/scripts/hello4.py
             commandOff: python $location
           mappedVariables:
             KeyName: $keys.KeyName
