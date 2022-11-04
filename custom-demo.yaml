@@ -1,0 +1,65 @@
+## Copyright 2022 Green River IT (GreenRiverIT.com) as described in LICENSE.txt distributed with this project on GitHub.  
+## Start at https://github.com/AgileCloudInstitute?tab=repositories    
+
+#Start custom-demo system
+custom-demo:
+  keysDir: $Default
+  cloud: aws 
+  organization: $config.orgCustom
+  tags:
+    networkName: $config
+    systemName: $config.sysName
+    environmentName: name-of-environment
+    ownerName: name-of-owner
+  foundation:
+    instanceName: custom
+    templateName: acm-custom-controller/templates/sample.template.json
+    controller: $customController.acm-custom-controller/controller/customController.py
+    controllerCommand: python $location
+    preprocessor: 
+      locationOn: aws-building-blocks/scripts/hello1.py
+      commandOn: python $location
+      locationOff: aws-building-blocks/scripts/hello2.py
+      commandOff: python $location
+    postprocessor:
+      locationOn: aws-building-blocks/scripts/hello3.py
+      commandOn: python $location
+      locationOff: aws-building-blocks/scripts/hello4.py
+      commandOff: python $location
+    mappedVariables:
+      vpcCIDR: $config
+    images: 
+      - instanceName: custom-image
+        templateName: acm-custom-controller/templates/sample.template.json
+        controller: $customController.acm-custom-controller/controller/customController.py
+        controllerCommand: python $location
+        mappedVariables: 
+          KeyName: $keys.KeyName
+          SSHLocation: $config
+          InstanceType: $config.imageInstanceType 
+          AvailabilityZone: us-west-2a
+          CidrBlock: 10.0.0.0/24
+  serviceTypes:
+    subnetsWithScaleSet:
+      instances:
+        - instanceName: custom-scaleset
+          templateName: acm-custom-controller/templates/sample.template.json
+          controller: $customController.acm-custom-controller/controller/customController.py
+          controllerCommand: python $location
+          imageName: $config.imgNameCustom
+          preprocessor: 
+            locationOn: aws-building-blocks/scripts/hello1.py
+            commandOn: python $location
+            locationOff: aws-building-blocks/scripts/hello2.py
+            commandOff: python $location
+          postprocessor:
+            locationOn: aws-building-blocks/scripts/hello3.py
+            commandOn: python $location
+            locationOff: aws-building-blocks/scripts/hello4.py
+            commandOff: python $location
+          mappedVariables:
+            KeyName: $keys.KeyName
+            InstanceType: t2.small
+            SSHLocation: $config
+            AvailabilityZone: $config.availZone
+            CidrBlock: 10.0.0.0/24
