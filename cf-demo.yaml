@@ -34,6 +34,7 @@ cf-demo:
         stackName: $config
         templateName: aws-building-blocks/cf/image.json
         controller: cloudformation
+        imageName: $config
         mappedVariables: 
           VpcId: $customFunction.foundationOutput.VpcId
           RouteTableId: $customFunction.foundationOutput.RouteTableId

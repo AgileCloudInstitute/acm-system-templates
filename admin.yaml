@@ -13,7 +13,7 @@ admin:
     templateName: azure-building-blocks/terraform/foundationAdmin
     controller: terraform
     mappedVariables:
-      resourceGroupName: admn
+      resourceGroupName: $config.rgNameAdmin
       resourceGroupRegion: westus
       subscriptionId: $config
       tenantId: $config
@@ -37,7 +37,7 @@ admin:
           templateName: azure-building-blocks/terraform/admin-agents
           controller: terraform
           mappedVariables:
-            instanceName: $this.instance
+            instanceName: $this.instance 
           backendVariables:
             storage_account_name: $keys.storageAccountName
             container_name: $keys

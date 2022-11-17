@@ -39,12 +39,12 @@ agents-arm:
       environmentName: $this.tags
       ownrNm: $this.tags.ownerName
     images:
-      - instanceName: arm-demo-imgx
+      - instanceName: arm-demo-imgx 
         deploymentName: devenvimagesx
         templateName: azure-building-blocks/arm/imagebuilder.template.json
         emptyTemplateName: azure-building-blocks/arm/empty.template.json
         controller: arm
-        imageName: initialimagemx
+        imageName: $config.imageNameARM
         runOutputName: initialoutputx
         resourceGroupName: $config.rgArmDemoFoundation
         mappedVariables: 

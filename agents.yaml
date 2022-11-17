@@ -65,8 +65,6 @@ agents:
           new_image_name: $customFunction.addDateTime.EMPTY_IMAGE
           region: $this.foundationMapped.resourceGroupRegion
           resource_group: $this.foundationMapped.resourceGroupName
-          az_server: $config.azdoOrgServiceURL
-          az_pat: $keys.azdoOrgPAT
           tenant_id: $config.tenantId
           subscription_id: $config.subscriptionId
           client_secret: $keys.clientSecret
