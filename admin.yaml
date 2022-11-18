@@ -14,7 +14,7 @@ admin:
     controller: terraform
     mappedVariables:
       resourceGroupName: $config.rgNameAdmin
-      resourceGroupRegion: westus
+      resourceGroupRegion: $config
       subscriptionId: $config
       tenantId: $config
       clientId: $keys
