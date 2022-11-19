@@ -5,7 +5,7 @@
 agents-arm:
   keysDir: $Default
   cloud: azure
-  organization: x1b2c
+  organization: $config.orgARM 
   tags:
     networkName: $config
     systemName: $config.sysName
