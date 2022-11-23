@@ -50,7 +50,7 @@ agents:
       access_key: $keys.tfBackendStorageAccessKey
     images: 
       - instanceName: EMPTY_IMAGE
-        templateName: azure-building-blocks/packer/empty-image
+        templateName: azure-building-blocks/packer/empty-image.json
         controller: packer
         keySourceFile: /home/runner/acmconfig/keys.yaml
         canine: describesadog
