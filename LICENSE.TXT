@@ -6,9 +6,17 @@ acm-system-templates, developed and copyrighted by Agile Cloud Institute Incorpo
 for Agile Cloud Institute's Agile Cloud Manager app, capable of creating, updating, 
 and deleting cloud resources.  
   
+This software and associated documentation files (the "Software") may only be
+used if you (and any entity that you represent) have agreed to,
+and are in compliance with, the Agile Cloud Institute Terms Of Service Terms available
+at https://AgileCloudInstitute.io/terms (the “Terms”), or other agreements governing
+the use of the Software, as mutually agreed by you and Agile Cloud Institute, Inc ("Agile 
+Cloud Institute"), and otherwise are in full compliance with this license.  
+  
 Since acm-system-templates is open source and free of licensing fees, you are free to use, 
-modify, and distribute the source code, as long as you include this copyright statement, 
-and as long as you do not use it to create a competing product.  
+modify, and distribute the source code, as long as you include this copyright statement, as 
+long as you are in compliance with the Terms, and as long as you do not use it to create a 
+product that competes with any of Agile Cloud Institute's current or future offerings.  
   
 In particular, you can use acm-system-templates to 
 build proprietary software and are under no obligation to redistribute any of your 
