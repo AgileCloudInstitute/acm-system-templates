@@ -78,7 +78,7 @@ agents-arm:
             locationOff: azure-building-blocks/scripts/hello4.py
             commandOff: python $location
           mappedVariables:
-            dnsLabelPrefix: agents
+            dnsLabelPrefix: $customFunction.addOrganization.agents
             vnetCidr: 10.0.0.0/16
             subnetCidr: 10.0.0.0/24
             publicIPAddressType: Dynamic
