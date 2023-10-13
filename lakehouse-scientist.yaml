@@ -1,0 +1,62 @@
+## Copyright 2023 Agile Cloud Institute (AgileCloudInstitute.io) as described in LICENSE.txt distributed with this project on GitHub.  
+## Start at https://github.com/AgileCloudInstitute?tab=repositories    
+
+#Start lakehouse-scientist system
+lakehouse-scientist: 
+  keysDir: $Default
+  cloud: aws
+  organization: $config.orgLhFoundation
+  tags:
+    networkName: $config
+    systemName: $config.sysName
+    environmentName: name-of-environment
+    ownerName: name-of-owner
+  foundation:
+    instanceName: cf-lhsf
+    stackName: $config.lhScienceFoundationStackName
+    templateName: aws-building-blocks/cf/lf-science-foundation.yaml
+    controller: cloudformation
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+    region: $config
+    preprocessor:
+      locationOff: aws-building-blocks\scripts\emrScienceEmptyS3.py
+      commandOff: python $location
+    mappedVariables:
+      BucketNameScienceEMR: emr-scientist 
+  serviceTypes:
+    emrScientist: 
+      instances: 
+        - instanceName: emr-cluster-scientists
+          stackName: $config.emrScientistStackName
+          templateName: aws-building-blocks/cf/emr-sagemaker.yaml
+          controller: cloudformation
+          capabilities:
+            - CAPABILITY_NAMED_IAM
+          region: $config
+          preprocessor:
+            locationOn: aws-building-blocks\scripts\pemCreateAndPushToS3.py
+            commandOn: python $location
+            locationOff: aws-building-blocks\scripts\pemRemoveFromS3.py
+            commandOff: python $location
+          mappedVariables:
+            IdleTimeout: 14400
+            S3CertsZip: $customFunction.sys:lakehouse-core.foundationOutput
+            VPC: $customFunction.sys:lakehouse-core.foundationOutput.VpcId
+            PrivateSubnet: $customFunction.sys:lakehouse-core.foundationOutput
+            SageMakerSecurityGroup: $customFunction.sys:lakehouse-core.foundationOutput
+            LFEMRScienceBucketName: $customFunction.foundationOutput
+    glueSageMaker:
+      instances:
+        - instanceName: glue-scientists
+          stackName: $config.glueScientistStackName
+          templateName: aws-building-blocks/cf/glue-sagemaker.yaml
+          controller: cloudformation
+          capabilities:
+            - CAPABILITY_NAMED_IAM
+          region: $config
+          mappedVariables:
+            S3BucketNameForOutput: $customFunction.sys:lakehouse-core.foundationOutput.LFWorkshopBucketName
+            VPC: $customFunction.sys:lakehouse-core.foundationOutput.VpcId
+            PrivateSubnet: $customFunction.sys:lakehouse-core.foundationOutput
+            SageMakerSecurityGroup: $customFunction.sys:lakehouse-core.foundationOutput
