@@ -56,7 +56,7 @@ lakehouse-scientist:
             - CAPABILITY_NAMED_IAM
           region: $config
           mappedVariables:
-            S3BucketNameForOutput: $customFunction.sys:lakehouse-core.foundationOutput.LFWorkshopBucketName
+            S3BucketNameForOutput: $customFunction.sys:lakehouse-core.foundationOutput.LakeFormationDemoBucketName
             VPC: $customFunction.sys:lakehouse-core.foundationOutput.VpcId
             PrivateSubnet: $customFunction.sys:lakehouse-core.foundationOutput
             SageMakerSecurityGroup: $customFunction.sys:lakehouse-core.foundationOutput

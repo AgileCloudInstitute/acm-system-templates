@@ -11,18 +11,29 @@ lakehouse-engineer:
     systemName: $config.sysName
     environmentName: name-of-environment
     ownerName: name-of-owner
+  foundation:
+    instanceName: emr-cluster-engineers
+    stackName: $config.emrEngineerStackName
+    templateName: aws-building-blocks/cf/emr-engineer.yaml
+    controller: cloudformation
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+    region: $config
+    mappedVariables:
+      ReleaseLabel: emr-6.7.0
+      InstanceType: m4.large
+      VPCPublicSubnet: $customFunction.sys:lakehouse-core.foundationOutput.PublicSubnet
+      EC2KeyPair: MyKeyPair
   serviceTypes:
     emrCluster: 
-      instances:
-        - instanceName: emr-cluster-engineers
-          stackName: $config.emrEngineerStackName
-          templateName: aws-building-blocks/cf/emr-engineer.yaml
+      instances: 
+        - instanceName: emr-cluster-engineer-users
+          stackName: $config.emrEngineerUserStackName
+          templateName: aws-building-blocks/cf/emr-engineer-user.yaml
           controller: cloudformation
           capabilities:
             - CAPABILITY_NAMED_IAM
           region: $config
           mappedVariables:
-            ReleaseLabel: emr-6.7.0
-            InstanceType: m4.large
-            VPCPublicSubnet: $customFunction.sys:lakehouse-core.foundationOutput.PublicSubnet
-            EC2KeyPair: MyKeyPair
+            LakeFormationDemoBucketName: $customFunction.sys:lakehouse-core.foundationOutput
+            EMRStepUserPassword: $config
