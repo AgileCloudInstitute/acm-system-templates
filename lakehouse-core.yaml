@@ -32,6 +32,20 @@ lakehouse-core:
       EEKeyPair: MyKeyPair
       LatestAmiId: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
   serviceTypes:
+    iamUsers: 
+      instances:
+        - instanceName: lf-iam-users
+          stackName: $config.lfUsersStackName
+          templateName: aws-building-blocks/cf/lf-users.yaml
+          controller: cloudformation
+          capabilities:
+            - CAPABILITY_NAMED_IAM
+          mappedVariables:
+            GlueRoleName: $customFunction.foundationOutput
+            GlobalAdminName: DataLakeAdministrativeUser1
+            GlueDataAnalystRoleName: $customFunction.foundationOutput
+            GlueDataEngineerRoleName: $customFunction.foundationOutput
+            LakeFormationDemoBucket: $customFunction.foundationOutput.LakeFormationDemoBucketName
     glueDatabase: 
       instances:
         - instanceName: lf-glue-database
