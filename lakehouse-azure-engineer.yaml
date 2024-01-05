@@ -1,0 +1,84 @@
+## Copyright 2024 Agile Cloud Institute, Inc. (AgileCloudInstitute.io as described in LICENSE.txt distributed with this project on GitHub.  
+## Start at https://github.com/AgileCloudInstitute?tab=repositories    
+
+#Start lakehouse-azure-engineer system
+lakehouse-azure-engineer:
+  keysDir: $Default
+  cloud: azure
+  organization: $config.orgARM 
+  tags:
+    networkName: $config
+    systemName: $config.sysName
+    environmentName: name-of-environment
+    ownerName: name-of-owner
+  serviceTypes:
+    synapseWorkspace:
+      instances:
+        - instanceName: synapsex
+          deploymentName: $config.synapseEngineerDeployNameARM
+          templateName: azure-building-blocks/arm/synapse.json
+          emptyTemplateName: azure-building-blocks/arm/empty.template.json
+          controller: arm
+          resourceGroupName: $config.rgLhEngineerSynapseService
+          resourceGroupRegion: $config
+          mappedVariables:
+            dlsResourceGroupName: $config.rgLhCoreFoundation
+            storageAccountName: $customFunction.sys:lakehouse-azure-core.foundationOutput
+            name: engineer
+
+    pauseTemplate: 
+      instances: 
+        - instanceName: pausex
+          deploymentName: $config.pauseEngineerDeployNameARM
+          templateName: azure-building-blocks/arm/pausetemplate.json
+          emptyTemplateName: azure-building-blocks/arm/empty.template.json
+          controller: arm
+          resourceGroupName: $config.rgLhEngineerPauseService
+          resourceGroupRegion: $config
+          imageName: $config.imageNameARM
+          mappedVariables:
+            location: $config.resourceGroupRegion
+            name: $customFunction.addOrganization.ename
+            LogicAppName: SynapsePauseEngineerSchedule
+    resumeTemplate: 
+      instances: 
+        - instanceName: resumex
+          deploymentName: $config.resumeEngineerDeployNameARM
+          templateName: azure-building-blocks/arm/resumetemplate.json
+          emptyTemplateName: azure-building-blocks/arm/empty.template.json
+          controller: arm
+          resourceGroupName: $config.rgLhEngineerResumeService
+          resourceGroupRegion: $config
+          imageName: $config.imageNameARM
+          mappedVariables:
+            location: $config.resourceGroupRegion
+            name: $customFunction.addOrganization.ename
+            LogicAppName: SynapseResumeEngineerSchedule
+            Frequency: Weekdays
+            TIME_ZONE: "Eastern Standard Time"
+            ResumeTime: "09:00 PM ( 21:00 )"
+    roleAssignments: 
+      instances: 
+        - instanceName: pauserolex
+          deploymentName: $config.rolePauseEngineerDeployNameARM
+          templateName: azure-building-blocks/arm/logicapproleassignments.json
+          emptyTemplateName: azure-building-blocks/arm/empty.template.json
+          controller: arm
+          resourceGroupName: $config.rgLhEngineerPauseRoleService
+          resourceGroupRegion: $config
+          imageName: $config.imageNameARM
+          mappedVariables:
+            logicAppName: SynapsePauseEngineerSchedule
+            wfResourceGroupName: $config.rgLhEngineerPauseService
+        - instanceName: resumerolex
+          deploymentName: $config.roleResumeEngineerDeployNameARM
+          templateName: azure-building-blocks/arm/logicapproleassignments.json
+          emptyTemplateName: azure-building-blocks/arm/empty.template.json
+          controller: arm
+          resourceGroupName: $config.rgLhEngineerResumeRoleService
+          resourceGroupRegion: $config
+          imageName: $config.imageNameARM
+          mappedVariables:
+            logicAppName: SynapseResumeEngineerSchedule
+            wfResourceGroupName: $config.rgLhEngineerResumeService
+
